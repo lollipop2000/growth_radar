@@ -1,0 +1,9 @@
+import {monthsBetween,shiftMonth} from './periods';
+export type Observation={date:Date;grain?:string;periodMonth?:string|null;query?:string;region?:string|null;demand?:number|null};
+export function searchCoverage(rows:Observation[],range:{from:string;to:string;days:number;grain?:string}){
+ const monthly=range.grain==='MONTH'||rows.some(r=>r.grain==='MONTH');if(!monthly)return {grain:'DAY',observed:new Set(rows.map(r=>r.date.toISOString().slice(0,10))).size,expected:range.days,monthsCovered:0,ratio:new Set(rows.map(r=>r.date.toISOString().slice(0,10))).size/range.days};
+ const expected=monthsBetween(range.from,range.to);let observed=0;for(const m of expected){const rs=rows.filter(r=>(r.periodMonth??r.date.toISOString().slice(0,7))===m);if(rs.some(r=>r.grain==='MONTH'))observed++;else{const days=Math.round((+new Date(shiftMonth(m,1)+'-01T00:00:00Z')-+new Date(m+'-01T00:00:00Z'))/86400000);observed+=Math.min(1,new Set(rs.map(r=>r.date.toISOString().slice(0,10))).size/days);}}
+ return {grain:'MONTH',observed,expected:expected.length,monthsCovered:rows.filter(r=>r.grain==='MONTH').reduce((s,r)=>s.add(r.periodMonth!),new Set<string>()).size,ratio:expected.length?observed/expected.length:0};
+}
+/** Mean query/region demand in latest observed month; URLs do not multiply query demand. */
+export function demandMetric(rows:Observation[]){const monthly=rows.filter(r=>r.grain==='MONTH'),month=monthly.map(r=>r.periodMonth!).sort().at(-1);if(!month)return null;const groups=new Map<string,Set<number>>();for(const r of monthly.filter(r=>r.periodMonth===month&&r.demand!=null)){const key=JSON.stringify([r.query?.trim().toLowerCase().replace(/ё/g,'е').replace(/\s+/g,' '),r.region??'']),g=groups.get(key)??new Set<number>();g.add(r.demand!);groups.set(key,g);}const values=[...groups.values()].map(g=>[...g].reduce((s,n)=>s+n,0)/g.size);return values.length?values.reduce((s,n)=>s+n,0)/values.length:null;}

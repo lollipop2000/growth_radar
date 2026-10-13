@@ -1,0 +1,107 @@
+import assert from "node:assert/strict";
+import { createServer } from "node:http";
+import { once } from "node:events";
+import { spawn, type ChildProcess } from "node:child_process";
+import { setTimeout as delay } from "node:timers/promises";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { db } from "../src/lib/db";
+import { coverageConfig, coveragePreview, createCoverageScan, coverageControl, resultCounts } from "../src/lib/scanner/coverage";
+import { emptyResult } from "../src/lib/scanner/model";
+import { saveScanPage } from "../src/lib/scanner/store";
+import { day, yesterday } from "../src/lib/yandex/dates";
+import { rowKey, rematchSite } from "../src/lib/yandex/store";
+import { json } from "../src/lib/yandex/settings";
+if (await db.scan.count({where:{status:{in:["PENDING","RUNNING","PAUSING","STOPPING","IMPORTING"]}}})) throw new Error("Stop scanner worker/jobs before local coverage acceptance.");
+const hits: {url:string;method:string}[] = [];
+const server = createServer((req,res) => {
+  hits.push({url:req.url!,method:req.method!});
+  if (req.url === "/robots.txt") return res.end("User-agent: *\nDisallow: /robots-denied");
+  res.setHeader("content-type","text/html");
+  if (req.url === "/bad") { res.statusCode=404; return res.end("not found"); }
+  if (req.url === "/blocked" || req.url === "/browser" && req.headers["user-agent"]?.includes("G-market-Growth-Radar")) { res.statusCode=403; return res.end("denied"); }
+  if (req.url === "/timeout") return;
+  if (req.url === "/network") return req.socket.destroy();
+  res.end("<title>Coverage fixture</title><h1>Readable local fixture page</h1><p>Useful text content only.</p><a href='/unrequested'>Never crawl this</a>");
+});
+server.listen(0,"127.0.0.1"); await once(server,"listening");
+const base = "http://127.0.0.1:" + (server.address() as {port:number}).port + "/", counterId="coverage-fixture";
+const site = await db.site.create({data:{baseUrl:base,name:"Local Sprint 2.2 Coverage Acceptance"}});
+let child: ChildProcess | undefined;
+const startWorker = () => { child=spawn(process.execPath,["--conditions=react-server","--import=tsx","scripts/worker.ts"],{stdio:["ignore","ignore","ignore"],env:process.env}); return child; };
+const killWorker = async () => { if (child && child.exitCode === null) { const exit = once(child,"exit"); child.kill("SIGKILL"); await exit; } child=undefined; };
+const until = async (condition:()=>Promise<boolean>, timeout=180000) => { const end=Date.now()+timeout; while(Date.now()<end) { if(await condition()) return; await delay(150); } throw new Error("Local coverage acceptance timeout"); };
+try {
+  const integration=await db.integration.findUniqueOrThrow({where:{type:"Yandex Metrika"}});
+  const date=day(yesterday());
+  const job=await db.jobRun.create({data:{siteId:site.id,integrationId:integration.id,source:"METRIKA",mode:"FIXTURE_COVERAGE",status:"COMPLETED",dateFrom:date,dateTo:date,configJson:{counterId}}});
+  const paths=["bad","blocked","browser","network","timeout","catalog?FILTER_ITEM_IN_STOCK=Y","robots-denied",...Array.from({length:49},(_,i)=>"item-"+i),"existing"];
+  const urls=[...paths.map(p=>base+p),base+"catalog?FILTER_ITEM_IN_STOCK=Y&utm_source=fixture","https://external.example/item",base+"checkout"];
+  for (const [i,url] of urls.entries()) await db.metrikaPageDaily.create({data:{siteId:site.id,counterId,date,url,normalizedUrl:(await import("../src/lib/scanner/url")).normalizeUrl(url),rowKey:rowKey(url),visits:1000-i,visitors:10,pageviews:10,jobRunId:job.id}});
+  const previous=await db.scan.create({data:{siteId:site.id,status:"COMPLETED",finishedAt:new Date()}});
+  await saveScanPage(previous.id,site.id,{...emptyResult(base+"existing","HTTP"),statusCode:200,httpStatusCode:200});
+  await rematchSite(site.id);
+  const preview=await coveragePreview(30,"UNMATCHED",50,false,site.id,counterId);
+  assert.equal(preview.queue.length,56); assert.equal(preview.totalBatches,2);
+  assert.equal(new Set(preview.queue.map(q=>q.url)).size,56);
+  assert.equal(preview.queue.find(q=>q.url.includes("FILTER_ITEM_IN_STOCK"))?.rawUrls.length,2);
+  assert.ok(!preview.queue.some(q=>/external|checkout|existing/.test(q.url)));
+  assert.equal((await coveragePreview(7,"ALL",50,false,site.id,counterId)).queue.length,56);
+  assert.equal((await coveragePreview(90,"ALL",50,true,site.id,counterId)).queue.length,57);
+  const scan=await createCoverageScan(30,"UNMATCHED",50,false,site.id,counterId,{delayMs:1000});
+  const read=()=>db.scan.findUniqueOrThrow({where:{id:scan.id}});
+  // Pending pause/stop/resume is durable and performs no requests.
+  await coverageControl(scan.id,"PAUSE"); assert.equal((await read()).status,"PAUSED");
+  await coverageControl(scan.id,"STOP"); assert.equal((await read()).status,"STOPPED");
+  await coverageControl(scan.id,"RESUME"); startWorker();
+  await until(async()=> (await read()).pagesScanned>=1);
+  await coverageControl(scan.id,"PAUSE");
+  await until(async()=> (await read()).status==="PAUSED");
+  const paused=await read(), processedAtPause=paused.pagesScanned;
+  await delay(1500); assert.equal((await read()).pagesScanned,processedAtPause);
+  await coverageControl(scan.id,"RESUME");
+  await until(async()=> (await read()).pagesScanned>=processedAtPause+2);
+  await killWorker();
+  const stopped=await read(), saved=coverageConfig(stopped.configJson)!;
+  const committed=new Map(saved.queue.filter(q=>q.result).map(q=>[q.url,q.processedAt]));
+  // Fixture-only advance of stale heartbeat avoids a 60-second test wait.
+  await db.scan.update({where:{id:scan.id},data:{heartbeatAt:new Date(Date.now()-120000)}});
+  startWorker(); await until(async()=> (await read()).status==="PAUSED");
+  assert.equal((await read()).pagesScanned,stopped.pagesScanned);
+  await coverageControl(scan.id,"RESUME");
+  await until(async()=>["COMPLETED","COMPLETED_WITH_ERRORS"].includes((await read()).status));
+  await killWorker();
+  const final=await read(), c=coverageConfig(final.configJson)!, count=resultCounts(c.queue);
+  assert.equal(count.processed,56); assert.equal(count.remaining,0); assert.equal(c.batches.length,2);
+  assert.deepEqual(c.batches.map(b=>b.urlCount),[50,6]); assert.ok(c.batches.every(b=>b.finishedAt && b.coverageAfter));
+  assert.equal(count.blocked,1); assert.equal(count.timedOut,1); assert.equal(count.httpErrors,1); assert.equal(count.networkErrors,1); assert.equal(count.skipped,1); assert.equal(count.successBrowser,1);
+  for (const [url,timestamp] of committed) assert.equal(c.queue.find(q=>q.url===url)?.processedAt,timestamp);
+  assert.equal(c.before.totalVisits,c.after.totalVisits); assert.ok(c.after.coverage!>c.before.coverage!);
+  const pages=await db.page.findMany({where:{siteId:site.id}});
+  assert.equal(pages.length,new Set(pages.map(p=>p.normalizedUrl)).size);
+  const repeated=await coveragePreview(30,"UNMATCHED",50,false,site.id,counterId);
+  assert.ok(repeated.queue.length<preview.queue.length); assert.ok(repeated.queue.some(q=>q.url.endsWith("timeout")));
+  assert.ok(hits.every(h=>h.method==="GET")); assert.ok(!hits.some(h=>/checkout|unrequested|sitemap|robots-denied/.test(h.url)));
+  // Crash boundary: all URL results committed, batch finalization not committed.
+  delete c.batches[1].finishedAt; delete c.batches[1].coverageAfter;
+  await db.scan.update({where:{id:scan.id},data:{status:"PAUSED",finishedAt:null,configJson:json({...final.configJson as object,coverage:c})}});
+  const hitsBeforeBoundary=hits.length;
+  await coverageControl(scan.id,"RESUME"); startWorker();
+  await until(async()=> (await read()).status==="COMPLETED_WITH_ERRORS"); await killWorker();
+  assert.equal(hits.length,hitsBeforeBoundary); assert.ok(coverageConfig((await read()).configJson)!.batches.every(b=>b.finishedAt));
+  // Active Stop/Resume, on a separate fixture-only three-URL audit queue.
+  const stopFixture=await createCoverageScan(7,"ALL",2,true,site.id,counterId,{delayMs:1000});
+  const stopConfig=coverageConfig(stopFixture.configJson)!;
+  stopConfig.queue=stopConfig.queue.filter(q=>[base+"item-0",base+"item-1",base+"item-2"].includes(q.url));
+  await db.scan.update({where:{id:stopFixture.id},data:{pagesDiscovered:3,configJson:json({...stopFixture.configJson as object,coverage:stopConfig})}});
+  const readStop=()=>db.scan.findUniqueOrThrow({where:{id:stopFixture.id}});
+  startWorker(); await until(async()=> (await readStop()).pagesScanned>=1);
+  await coverageControl(stopFixture.id,"STOP"); await until(async()=> (await readStop()).status==="STOPPED");
+  const stoppedQueue=coverageConfig((await readStop()).configJson)!;
+  assert.ok(resultCounts(stoppedQueue.queue).remaining>0);
+  await coverageControl(stopFixture.id,"RESUME"); await until(async()=> (await readStop()).status==="COMPLETED"); await killWorker();
+  assert.equal((await readStop()).pagesScanned,3);
+  assert.equal(await db.page.count({where:{siteId:site.id}}),pages.length);
+  mkdirSync("test-results",{recursive:true});
+  writeFileSync("test-results/coverage-acceptance.json",JSON.stringify({checkedAt:new Date().toISOString(),status:"PASS",productionCrawlStarted:false,scanId:scan.id,stopFixtureId:stopFixture.id,siteId:site.id,base,periods:[7,30,90],queueDeduplicated:true,queryPreserved:true,defaultBatchSize:50,batches:coverageConfig((await read()).configJson)!.batches,results:count,before:c.before,after:c.after,pauseResume:true,stopResume:true,activeStopResume:true,workerRestart:true,batchBoundaryRecovery:true,committedResultsNotRepeated:true,automaticRematch:true,duplicatePages:false,readOnly:true,remainingUnmatched:c.remainingUnmatched},null,2));
+  console.log("PASS: local Coverage queue, batches 50+6, per-URL errors, Pause/Stop/Resume, forced worker restart, atomic checkpoint, rematch and no duplicate Pages.");
+} finally { await killWorker(); server.closeAllConnections(); await new Promise<void>(resolve=>server.close(()=>resolve())); await db.$disconnect(); }

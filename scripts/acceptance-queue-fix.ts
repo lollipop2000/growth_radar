@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {db} from '../src/lib/db';
+import {saveScanPage} from '../src/lib/scanner/store';
+import {emptyResult} from '../src/lib/scanner/model';
+import {rematchSite} from '../src/lib/yandex/store';
+import {scannerQueueHealth} from '../src/lib/scanner/queue-health';
+import {writeWorkerHealth} from './scanner-supervisor.mjs';
+if(!/^\/radar_stabilization1_\d+$/.test(new URL(process.env.DATABASE_URL!).pathname))throw Error('Fixture DB required');
+const base='http://127.0.0.1:48997/queue-'+Date.now()+'/',site=await db.site.create({data:{baseUrl:base,name:'Queue regression fixture'}}),scan=await db.scan.create({data:{siteId:site.id,status:'COMPLETED'}});
+await saveScanPage(scan.id,site.id,{...emptyResult(base+'page/','HTTP'),statusCode:200});
+const page=await db.page.findFirstOrThrow({where:{siteId:site.id}}),month=new Date('2026-09-01');
+await db.webmasterQueryDaily.createMany({data:Array.from({length:1500},(_,i)=>({siteId:site.id,hostId:'fixture',date:month,grain:'MONTH',periodMonth:'2026-09',source:'WEBMASTER_IMPORT',rowKey:String(i),query:'q'+i,url:base+'page/',normalizedUrl:base+'page',impressions:i,clicks:1,rawJson:{original:i}}))});
+const before=await db.webmasterQueryDaily.findMany({where:{siteId:site.id},orderBy:{id:'asc'}}),start=performance.now();await rematchSite(site.id,[base+'page/']);const elapsed=performance.now()-start;
+const after=await db.webmasterQueryDaily.findMany({where:{siteId:site.id},orderBy:{id:'asc'}});assert.equal(after.filter(r=>r.pageId===page.id).length,1500);
+const raw=(r:any)=>{const {pageId,matchReason,matchStatus,normalizedUrl,updatedAt,...rest}=r;return rest;};assert.deepEqual(before.map(raw),after.map(raw));await rematchSite(site.id,[base+'page/']);assert.deepEqual(await db.webmasterQueryDaily.findMany({where:{siteId:site.id},orderBy:{id:'asc'}}),after);
+const pending=await db.scan.create({data:{siteId:site.id,startedAt:new Date(Date.now()-180000)}});writeWorkerHealth('REMATCH');await scannerQueueHealth();assert.equal((await db.scan.findUniqueOrThrow({where:{id:pending.id}})).status,'PENDING');writeWorkerHealth('STOPPED');await scannerQueueHealth();const failed=await db.scan.findUniqueOrThrow({where:{id:pending.id}});assert.equal(failed.status,'FAILED');assert.ok(failed.lastError?.includes('2 минуты'));assert.equal(failed.pagesScanned,0);
+writeFileSync('test-results/queue-fix-fixtures.json',JSON.stringify({status:'PASS',rows:1500,rematchMs:Math.round(elapsed),rawPreserved:true,idempotent:true,healthyBusyWorkerPreservesQueue:true,offlineQueueFailsExplicitly:true},null,2));console.log('PASS queue fix fixtures: rematch '+Math.round(elapsed)+' ms');await db.$disconnect();

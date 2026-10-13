@@ -1,0 +1,11 @@
+import type {SeoRecommendation,ReviewResponse,Evidence,Decision,PageSeoReviewInput,Json} from '../contract';
+export type EvidenceReference={evidenceId:string;fieldPath:string;purpose:'OBSERVE'|'INSPECT'|'ABSENT'|'MISSING_TERM';term?:string};
+export type StatementKind='OBSERVED_FACT'|'SEO_INFERENCE'|'GROWTH_HYPOTHESIS';
+export type Statement={kind:StatementKind;text:string;references:EvidenceReference[]};
+export type Recommendation=Omit<SeoRecommendation,'claims'|'evidenceIds'>&{evidenceReferences:EvidenceReference[];statements:Statement[]};
+export type ResolvedReference={reference:EvidenceReference;value:Json;kind:string;state:Evidence['state'];coverage:Evidence['coverage'];observedAt:string|null;period?:Evidence['period']};
+export type Detail={code:string;fieldPath?:string;evidenceId?:string;referencePath?:string;rule?:string;token?:string;category?:string};
+export type Reviewed=Recommendation&{status:'SUPPORTED'|'NEEDS_REVIEW';reasonCodes:string[];evidence:Evidence[];evidenceIds:string[];verifiedFacts:ResolvedReference[];outcome:'READY_CHANGE'|'GROWTH_HYPOTHESIS'|'DATA_CHECK';quality:ReviewResponse['result']['recommendations'][number]['quality']};
+export type Response={result:Omit<ReviewResponse['result'],'recommendations'>&{recommendations:Reviewed[];outcomeCounts:Record<'READY_CHANGE'|'GROWTH_HYPOTHESIS'|'DATA_CHECK',number>};validation:{generated:number;accepted:number;rejected:number;decisions:Decision[]};metadata:ReviewResponse['metadata']};
+export type ActionState={ok:true;review:Response}|{ok:false;code:string;message:string};
+export type Input=PageSeoReviewInput;

@@ -1,0 +1,15 @@
+import { readFileSync, writeFileSync } from "node:fs";
+import { db } from "../src/lib/db";
+import { coverageConfig, resultCounts, COVERAGE_MODE } from "../src/lib/scanner/coverage";
+import { json } from "../src/lib/yandex/settings";
+const report = JSON.parse(readFileSync("test-results/coverage-acceptance.json","utf8"));
+const source = await db.scan.findUniqueOrThrow({where:{id:report.stopFixtureId},include:{site:true}});
+if (!source.site.baseUrl.startsWith("http://127.0.0.1:") || !source.site.name.startsWith("Local Sprint 2.2")) throw new Error("Local fixtures only");
+if (await db.scan.count({where:{status:{in:["PENDING","RUNNING","PAUSING","STOPPING","IMPORTING"]}}})) throw new Error("Stop workers/active scans before UI fixture");
+const c = coverageConfig(source.configJson)!;
+c.queue = c.queue.map(({url,rawUrls,visits})=>({url,rawUrls,visits})); c.batches=[]; delete c.lease; delete c.lastProcessedUrl;
+c.progress={...resultCounts(c.queue),currentBatch:1,totalBatches:Math.ceil(c.queue.length/c.batchSize)};
+c.startedAt=c.updatedAt=new Date().toISOString();
+const scan=await db.scan.create({data:{siteId:source.siteId,mode:COVERAGE_MODE,pagesDiscovered:c.queue.length,configJson:json({...source.configJson as object,coverage:c,uiFixture:true})}});
+writeFileSync("test-results/coverage-ui-fixture.json",JSON.stringify({id:scan.id,production:false,base:source.site.baseUrl},null,2));
+console.log("Local UI fixture: "+scan.id); await db.$disconnect();

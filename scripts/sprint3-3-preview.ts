@@ -1,0 +1,4 @@
+import {db} from '../src/lib/db';
+import {prepareDataset} from '../src/lib/opportunities/dataset';
+import {writeFileSync} from 'node:fs';
+try{const d=await prepareDataset(),pages=d.pages.filter(p=>p.commerce);const report={pages:d.pages.length,commerce:pages.length,sales:pages.filter(p=>p.commerce?.sales).length,complete:pages.filter(p=>p.commerce?.salesComplete).length,stocks:pages.filter(p=>p.commerce?.stock!=null).length,kg:pages.filter(p=>p.commerce?.stockKg!=null).length,prices:pages.filter(p=>p.commerce?.priceAvg!=null).length,totals:d.totals,samples:pages.filter(p=>p.commerce?.sales).slice(0,3).map(p=>({url:p.url,commerce:p.commerce}))};writeFileSync('test-results/sprint3-3-preview.json',JSON.stringify(report,null,2));console.log(JSON.stringify({...report,samples:undefined}));}finally{await db.$disconnect();}

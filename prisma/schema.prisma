@@ -1,0 +1,383 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Site {
+  id              String                @id @default(cuid())
+  name            String
+  baseUrl         String                @unique
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  pages           Page[]
+  scans           Scan[]
+  metrikaDaily    MetrikaPageDaily[]
+  webmasterDaily  WebmasterQueryDaily[]
+  jobRuns         JobRun[]
+  imports         Import[]
+  importProfiles  ImportProfile[]
+  businessRecords BusinessRecord[]
+  opportunities   Opportunity[]
+  seoActions      SeoAction[]
+}
+
+model Page {
+  id               String                @id @default(cuid())
+  siteId           String
+  site             Site                  @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  url              String
+  normalizedUrl    String
+  path             String
+  firstSeenAt      DateTime              @default(now())
+  lastSeenAt       DateTime              @default(now())
+  active           Boolean               @default(true)
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  scanPages        ScanPage[]            @relation("PageSnapshots")
+  pageType         String                @default("other")
+  manualType       Boolean               @default(false)
+  aliasesJson      Json                  @default("[]")
+  latestScanPageId String?               @unique
+  latestScanPage   ScanPage?             @relation("LatestSnapshot", fields: [latestScanPageId], references: [id], onDelete: Restrict)
+  metrikaDaily     MetrikaPageDaily[]
+  webmasterDaily   WebmasterQueryDaily[]
+  businessRecords  BusinessRecord[]
+  opportunities    Opportunity[]
+  seoActions       SeoAction[]
+  changes          PageChange[]
+
+  @@unique([siteId, normalizedUrl])
+}
+
+model Scan {
+  id                  String     @id @default(cuid())
+  siteId              String
+  site                Site       @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  startedAt           DateTime   @default(now())
+  finishedAt          DateTime?
+  status              String     @default("PENDING")
+  pagesDiscovered     Int        @default(0)
+  pagesScanned        Int        @default(0)
+  errorsCount         Int        @default(0)
+  pages               ScanPage[]
+  mode                String     @default("HTTP")
+  configJson          Json       @default("{}")
+  lastError           String?
+  discoveryErrorsJson Json       @default("[]")
+  heartbeatAt         DateTime?
+}
+
+model ScanPage {
+  id                 String   @id @default(cuid())
+  scanId             String
+  scan               Scan     @relation(fields: [scanId], references: [id], onDelete: Restrict)
+  pageId             String
+  page               Page     @relation("PageSnapshots", fields: [pageId], references: [id], onDelete: Restrict)
+  statusCode         Int?
+  responseTimeMs     Int?
+  error              String?
+  scannedAt          DateTime @default(now())
+  currentForPage     Page?    @relation("LatestSnapshot")
+  source             String   @default("HTTP")
+  outcome            String   @default("OK")
+  requestedUrl       String?
+  finalUrl           String?
+  redirectsJson      Json     @default("[]")
+  httpStatusCode     Int?
+  contentType        String?
+  contentLength      Int?
+  title              String?
+  description        String?
+  canonical          String?
+  h1                 String?
+  h2Json             Json     @default("[]")
+  robots             String?
+  lang               String?
+  wordCount          Int?
+  internalLinksCount Int?
+  externalLinksCount Int?
+  structuredDataJson Json     @default("[]")
+  openGraphJson      Json     @default("{}")
+  contentHash        String?
+  indexable          Boolean?
+  contentSignalsJson Json?
+  internalLinksJson  Json?
+
+  @@unique([scanId, pageId])
+}
+
+model Integration {
+  id                   String    @id @default(cuid())
+  type                 String    @unique
+  enabled              Boolean   @default(false)
+  status               String    @default("Not configured")
+  lastSuccessfulSyncAt DateTime?
+  lastError            String?
+  configJson           Json      @default("{}")
+  lastCheckedAt        DateTime?
+  jobRuns              JobRun[]
+}
+
+model MetrikaPageDaily {
+  id                  String   @id @default(cuid())
+  siteId              String
+  site                Site     @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  pageId              String?
+  page                Page?    @relation(fields: [pageId], references: [id], onDelete: Restrict)
+  date                DateTime @db.Date
+  counterId           String
+  url                 String
+  normalizedUrl       String
+  rowKey              String
+  matchStatus         String   @default("UNMATCHED")
+  matchReason         String?
+  visits              Float
+  visitors            Float
+  pageviews           Float
+  bounceRate          Float?
+  avgVisitDuration    Float?
+  goalConversionsJson Json     @default("{}")
+  granularity         String   @default("LANDING_PAGE_SESSION")
+  reportMetaJson      Json     @default("{}")
+  rawJson             Json     @default("{}")
+  jobRunId            String
+  jobRun              JobRun   @relation(fields: [jobRunId], references: [id], onDelete: Restrict)
+  importedAt          DateTime @default(now())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@unique([siteId, counterId, date, rowKey])
+  @@index([siteId, date, pageId])
+  @@index([siteId, matchStatus, date])
+}
+
+model WebmasterQueryDaily {
+  id            String   @id @default(cuid())
+  siteId        String
+  site          Site     @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  pageId        String?
+  page          Page?    @relation(fields: [pageId], references: [id], onDelete: Restrict)
+  date          DateTime @db.Date
+  grain         String @default("DAY")
+  periodMonth   String?
+  demand        Float?
+  hostId        String
+  url           String
+  normalizedUrl String
+  query         String
+  normalizedQuery String @default("")
+  source        String @default("WEBMASTER_API")
+  importId      String?
+  searchImport  Import? @relation(fields: [importId], references: [id], onDelete: Restrict)
+  region        String?
+  rowKey        String
+  matchStatus   String   @default("UNMATCHED")
+  matchReason   String?
+  impressions   Float
+  clicks        Float
+  avgPosition   Float?
+  ctr           Float?
+  rawJson       Json     @default("{}")
+  jobRunId      String?
+  jobRun        JobRun?   @relation(fields: [jobRunId], references: [id], onDelete: Restrict)
+  importedAt    DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([siteId, hostId, date, rowKey])
+  @@index([siteId, grain, periodMonth])
+  @@index([siteId, date, pageId])
+  @@index([siteId, matchStatus, date])
+}
+
+model JobRun {
+  id             String                @id @default(cuid())
+  siteId         String
+  site           Site                  @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  integrationId  String
+  integration    Integration           @relation(fields: [integrationId], references: [id], onDelete: Restrict)
+  source         String
+  mode           String
+  status         String                @default("PENDING")
+  dateFrom       DateTime              @db.Date
+  dateTo         DateTime              @db.Date
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  heartbeatAt    DateTime?
+  nextAttemptAt  DateTime              @default(now())
+  rowsFetched    Int                   @default(0)
+  rowsSaved      Int                   @default(0)
+  errorsJson     Json                  @default("[]")
+  durationMs     Int                   @default(0)
+  configJson     Json                  @default("{}")
+  checkpointJson Json                  @default("{}")
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  metrikaDaily   MetrikaPageDaily[]
+  webmasterDaily WebmasterQueryDaily[]
+
+  @@index([status, nextAttemptAt])
+  @@index([integrationId, createdAt])
+}
+
+model ImportProfile {
+  id            String   @id @default(cuid())
+  siteId        String
+  site          Site     @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  name          String
+  sheetName     String
+  mappingJson   Json
+  dateFormat    String   @default("ISO")
+  numericFormat String   @default("RU")
+  salesImportMode String @default("UNKNOWN")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  imports       Import[]
+
+  @@unique([siteId, name])
+}
+
+model Import {
+  searchSummaryJson Json?
+  id           String           @id @default(cuid())
+  siteId       String
+  site         Site             @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  profileId    String?
+  profile      ImportProfile?   @relation(fields: [profileId], references: [id], onDelete: Restrict)
+  filename     String
+  kind         String           @default("LEGACY")
+  salesImportMode String         @default("UNKNOWN")
+  coverageFrom DateTime?         @db.Date
+  coverageTo   DateTime?         @db.Date
+  metadataUpdatedAt DateTime?    
+  unknownSkuCount Int           @default(0)
+  sizeBytes    Int
+  sheetName    String?
+  status       String           @default("DRAFT")
+  rowsTotal    Int              @default(0)
+  rowsImported Int              @default(0)
+  rowsSkipped  Int              @default(0)
+  rowsErrors   Int              @default(0)
+  matched      Int              @default(0)
+  unmatched    Int              @default(0)
+  dataJson     Json             @default("{}")
+  mappingJson  Json             @default("{}")
+  errorsJson   Json             @default("[]")
+  startedAt    DateTime?
+  finishedAt   DateTime?
+  createdAt    DateTime         @default(now())
+  records      BusinessRecord[]
+  searchRows   WebmasterQueryDaily[]
+
+  @@index([siteId, createdAt])
+}
+
+model BusinessRecord {
+  id             String    @id @default(cuid())
+  siteId         String
+  site           Site      @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  importId       String
+  import         Import    @relation(fields: [importId], references: [id], onDelete: Restrict)
+  pageId         String?
+  page           Page?     @relation(fields: [pageId], references: [id], onDelete: Restrict)
+  rowNumber      Int
+  rawUrl         String?
+  normalizedUrl  String?
+  sku            String?
+  productName    String?
+  category       String?
+  productGroup   String?
+  brand          String?
+  price          Decimal?  @db.Decimal(18, 4)
+  stock          Float?
+  available      Boolean?
+  package        String?
+  priority       Float?
+  date           DateTime? @db.Date
+  orders         Float?
+  quantityKg     Float?
+  quantity       Float?
+  kgPerUnit      Decimal?  @db.Decimal(18, 6)
+  revenue        Decimal?  @db.Decimal(18, 4)
+  attributesJson Json      @default("{}")
+  matchStatus    String    @default("UNMATCHED")
+  createdAt      DateTime  @default(now())
+
+  @@unique([importId, rowNumber])
+  @@index([siteId, pageId, date])
+}
+
+model Opportunity {
+  id                 String   @id @default(cuid())
+  siteId             String
+  site               Site     @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  pageId             String
+  page               Page     @relation(fields: [pageId], references: [id], onDelete: Restrict)
+  ruleId             String
+  score              Float
+  searchScore        Float?
+  commerceScore      Float?
+  overallScore       Float?
+  domain             String   @default("SEARCH")
+  primaryType        String   @default("SEARCH")
+  severity           String
+  title              String
+  description        String
+  evidenceJson       Json
+  scoreBreakdownJson Json
+  periodFrom         DateTime @db.Date
+  periodTo           DateTime @db.Date
+  status             String   @default("ACTIVE")
+  isCurrent          Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  seoActions         SeoAction[]
+
+  @@unique([siteId, pageId, ruleId, periodFrom, periodTo])
+  @@index([siteId, isCurrent, status, score])
+}
+
+model SeoAction {
+  id String @id @default(cuid())
+  siteId String
+  site Site @relation(fields: [siteId], references: [id], onDelete: Restrict)
+  pageId String
+  page Page @relation(fields: [pageId], references: [id], onDelete: Restrict)
+  opportunityId String?
+  opportunity Opportunity? @relation(fields: [opportunityId], references: [id], onDelete: SetNull)
+  actionId String
+  priority String
+  category String
+  title String
+  description String
+  evidenceJson Json
+  expectedMetric String
+  confidence String
+  b2b Boolean @default(false)
+  status String @default("ACTIVE")
+  isCurrent Boolean @default(true)
+  periodFrom DateTime @db.Date
+  periodTo DateTime @db.Date
+  implementedAt DateTime?
+  comment String?
+  baselineJson Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([siteId, pageId, actionId, periodFrom, periodTo])
+  @@index([siteId, isCurrent, status])
+}
+
+model PageChange {
+  id String @id @default(cuid())
+  pageId String
+  page Page @relation(fields: [pageId], references: [id], onDelete: Restrict)
+  scanPageId String @unique
+  previousScanPageId String
+  diffJson Json
+  createdAt DateTime @default(now())
+  @@index([pageId, createdAt])
+}

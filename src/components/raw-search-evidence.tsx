@@ -1,0 +1,4 @@
+import {number} from '@/lib/i18n/ru';
+export function RawSearchEvidence({rows}:{rows:{url:string;query:string;date:Date;grain?:string;impressions:number;clicks:number;avgPosition:number|null}[]}){
+ return <details className='panel' data-raw-search-evidence><summary>Исходные URL поисковых наблюдений · {rows.length} строк</summary><p>До 100 исходных наблюдений выбранной Page за выбранный период. Historical URL остаётся URL источника после matching; месячные строки не распределяются по дням.</p><div className='table-scroll'><table><thead><tr>{['Source URL','Запрос','Дата / grain','Показы','Клики','Позиция'].map(h=><th key={h}>{h}</th>)}</tr></thead><tbody>{rows.slice(0,100).map((r,i)=><tr key={i}><td>{r.url}</td><td>{r.query}</td><td>{r.date.toISOString().slice(0,10)} / {r.grain??'DAY'}</td><td>{number(r.impressions)}</td><td>{number(r.clicks)}</td><td>{number(r.avgPosition)}</td></tr>)}</tbody></table></div></details>;
+}

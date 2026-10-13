@@ -1,0 +1,2 @@
+export function failureCode(error:unknown){const code=error&&typeof error==='object'&&'code' in error?String(error.code):error instanceof Error&&error.message==='Cross-site redirect rejected'?'BOUNDARY':'PAGE_PROCESSING_ERROR';return /^[A-Z0-9_]{1,50}$/.test(code)?code:'PAGE_PROCESSING_ERROR';}
+export function infrastructureFailure(error:unknown){return ['P1000','P1001','P1002','P1003','P1008','P1009','P1010','P1011','P1012','P1013','P1014','P1015','P1016','P1017','P2024','P2028'].includes(failureCode(error));}

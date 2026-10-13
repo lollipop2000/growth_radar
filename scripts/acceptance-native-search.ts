@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {db} from '../src/lib/db';
+import {currentSite,json} from '../src/lib/yandex/settings';
+import {uploadSearch,previewSearch,commitSearch} from '../src/lib/search/import-service';
+import {calculateSeoActions,setSeoStatus} from '../src/lib/seo-actions/service';
+import {calculateOpportunities} from '../src/lib/opportunities/service';
+import {searchDataset} from '../src/lib/search/dataset';
+import {saveScanPage} from '../src/lib/scanner/store';
+import {emptyResult,parseHtml} from '../src/lib/scanner/model';
+import {normalizeUrl} from '../src/lib/scanner/url';
+import {saveWebmasterRows} from '../src/lib/yandex/store';
+import {seoPageView} from '../src/lib/seo-actions/service';
+const target=await db.integration.findUniqueOrThrow({where:{type:'Target Site'}}),w=await db.integration.findUniqueOrThrow({where:{type:'Yandex Webmaster'}}),m=await db.integration.findUniqueOrThrow({where:{type:'Yandex Metrika'}});
+try{
+ const site=await db.site.create({data:{name:'Локальная месячная приёмка',baseUrl:`http://127.0.0.1:4779/native-${Date.now()}/`}});await db.integration.update({where:{id:target.id},data:{configJson:{baseUrl:site.baseUrl}}});await db.integration.update({where:{id:w.id},data:{configJson:{siteId:site.id,hostId:'native-fixture'}}});await db.integration.update({where:{id:m.id},data:{configJson:{siteId:site.id,counterId:process.env.YANDEX_METRIKA_COUNTER_ID}}});assert.equal((await currentSite()).id,site.id);
+ const scan=await db.scan.create({data:{siteId:site.id,status:'COMPLETED'}}),urls=['p','other'].map(p=>site.baseUrl+p+'/');for(const url of urls){const parsed=parseHtml('<html><title>Масло</title><body><main><h1>Масло</h1></main></body></html>',url,site.baseUrl);await saveScanPage(scan.id,site.id,{...emptyResult(url,'HTTP'),...parsed.fields,statusCode:200});}
+ const pages=await db.page.findMany({where:{siteId:site.id}});for(const p of pages)await db.page.update({where:{id:p.id},data:{pageType:'product'}});
+ const unscanned=await db.page.create({data:{siteId:site.id,url:site.baseUrl+'known/',normalizedUrl:normalizeUrl(site.baseUrl+'known/'),path:new URL(site.baseUrl+'known/').pathname}});
+ const headers=['Query','Url',...['2026-08','2026-06','2026-07'].flatMap(mon=>['shows','position','demand','ctr','clicks'].map(k=>mon+'_'+k))],query='купить масло оптом 20л iso vg 46',csv=[headers.join(';'),...urls.map(url=>[query,new URL(url).pathname,...Array.from({length:3},()=>[80,8.5,123,1.2,1]).flat()].join(';')),['масло',new URL(unscanned.url).pathname,...Array.from({length:3},()=>[40,9,50,0,0]).flat()].join(';'),['чужой URL','//other.invalid/',...Array.from({length:3},()=>[1,2,3,0,0]).flat()].join(';')].join('\n'),buffer=Buffer.from(csv);
+ const file=await uploadSearch(buffer,'native.csv'),preview=await previewSearch(file.id,'CSV');assert.equal(preview.rowsImported,9);assert.equal(preview.rowsErrors,1);await commitSearch(file.id);assert.equal(await db.webmasterQueryDaily.count({where:{siteId:site.id}}),9);await commitSearch(file.id);assert.equal(await db.webmasterQueryDaily.count({where:{siteId:site.id}}),9);
+ const second=await uploadSearch(buffer,'native-repeat.csv');await previewSearch(second.id,'CSV');await commitSearch(second.id);assert.equal(await db.webmasterQueryDaily.count({where:{siteId:site.id}}),9);assert.equal(await db.webmasterQueryDaily.count({where:{siteId:site.id,pageId:unscanned.id}}),3);
+ const job=await db.jobRun.create({data:{siteId:site.id,integrationId:w.id,source:'WEBMASTER',mode:'FIXTURE',status:'COMPLETED',dateFrom:new Date('2026-06-15'),dateTo:new Date('2026-06-15'),configJson:{hostId:'native-fixture'}}});await saveWebmasterRows(job.id,[{date:'2026-06-15',url:urls[0],query,region:null,impressions:500,clicks:5,ctr:1,avgPosition:8,rawJson:{}}],{});
+ assert.equal((await searchDataset({siteId:site.id,date:{gte:new Date('2026-06-01'),lte:new Date('2026-08-31')}},'native-fixture')).reduce((n,r)=>n+r.impressions,0),600);
+ assert.equal((await searchDataset({siteId:site.id,date:{gte:new Date('2026-06-10'),lte:new Date('2026-06-20')}},'native-fixture')).reduce((n,r)=>n+r.impressions,0),500);
+ const opp=await calculateOpportunities('M3',{siteId:site.id,hostId:'native-fixture'}),seo=await calculateSeoActions('M3',{siteId:site.id,hostId:'native-fixture'});assert.ok(seo.actions.some(a=>a.actionId==='A02'));assert.ok(seo.actions.some(a=>a.category==='CANNIBALIZATION'));assert.equal(seo.d.period.days,92);assert.equal(seo.d.totals.search!.impressions,600);assert.equal(seo.pages.find(p=>p.id===unscanned.id)?.search?.monthsCovered,3);
+ const view=await seoPageView(pages[0].id,'M3');assert.deepEqual(view.d.period,seo.d.period);assert.deepEqual(view.page?.allQueries,seo.pages.find(p=>p.id===pages[0].id)?.allQueries);assert.deepEqual(view.graph.get(pages[0].id),seo.graph.get(pages[0].id));
+ const stored=await db.seoAction.findMany({where:{siteId:site.id}}),action=stored.find(a=>a.actionId==='A02')!;await setSeoStatus(action.id,'IMPLEMENTED','Месячная приёмка');const done=await db.seoAction.findUniqueOrThrow({where:{id:action.id}});assert.equal((done.baselineJson as {impressions:number}).impressions,240);await calculateSeoActions('M3',{siteId:site.id,hostId:'native-fixture'});assert.equal(await db.seoAction.count({where:{siteId:site.id}}),stored.length);assert.equal((await db.seoAction.findUniqueOrThrow({where:{id:action.id}})).status,'IMPLEMENTED');
+ const report={status:'PASS',siteId:site.id,baseUrl:site.baseUrl,importId:second.id,pageId:pages[0].id,unscannedPageId:unscanned.id,opportunityId:(await db.opportunity.findFirst({where:{siteId:site.id}}))?.id,actions:stored.length,rows:9,invalidRowIsolated:true,idempotentUpload:true,apiPreserved:true,noDoubleCount:true,monthlyBaseline:true,ruleCounts:opp.counts};writeFileSync('test-results/native-search-acceptance.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+}finally{for(const row of [target,w,m])await db.integration.update({where:{id:row.id},data:{configJson:json(row.configJson)}});await db.$disconnect();}

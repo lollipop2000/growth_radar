@@ -1,0 +1,25 @@
+// Diagnostic process only. No source/build patch, parameters, SQL or result logging.
+const {AsyncLocalStorage}=require('node:async_hooks');
+const {appendFileSync}=require('node:fs');
+const Module=require('node:module');const http=require('node:http');const {performance}=require('node:perf_hooks');
+const context=new AsyncLocalStorage(),wrapped=new WeakMap(),constructors=new WeakMap();
+const inspector=require('node:inspector');const session=new inspector.Session();session.connect();
+const post=(method,params={})=>new Promise((resolve,reject)=>session.post(method,params,(e,r)=>e?reject(e):resolve(r)));
+if(process.env.PERF_GATE_COVERAGE==='1')post('Profiler.enable').then(()=>post('Profiler.startPreciseCoverage',{callCount:true,detailed:true}));
+async function aiCoverage(){await post('Debugger.enable');const {result}=await post('Profiler.takePreciseCoverage');const targets=[['manualAction','PAGE_SEO_REVIEW'],['profileProjection','PAGE_SEO_PROFILE_V1']],observations=[];let unavailable=0;for(const script of result){if(!/[\\/]\.next[\\/]/.test(script.url))continue;let scriptSource;try{({scriptSource}=await post('Debugger.getScriptSource',{scriptId:script.scriptId}));}catch{unavailable++;continue;}for(const [label,marker]of targets){let pos=scriptSource.indexOf(marker);while(pos>=0){const functions=script.functions.filter(f=>f.ranges[0].startOffset<=pos&&f.ranges[0].endOffset>pos).sort((a,b)=>(a.ranges[0].endOffset-a.ranges[0].startOffset)-(b.ranges[0].endOffset-b.ranges[0].startOffset));if(functions.length)observations.push({label,functionName:functions[0].functionName,count:functions[0].ranges[0].count});pos=scriptSource.indexOf(marker,pos+marker.length);}}}emit({kind:'AI_GET_COVERAGE',observations,unavailable,externalAttempts});}
+let profiling=false;
+const category=node=>{const f=node.callFrame,url=f.url||'',name=f.functionName||'';if(name==='(idle)')return 'idle';if(name==='(garbage collector)')return 'gc';if(/prisma/i.test(url))return 'prisma';if(/react-dom|react-server/i.test(url))return 'react';if(/next[\\/]|next-server|\.next/.test(url))return 'next-or-bundled-app';return 'other';};
+async function beginProfile(){if(process.env.PERF_GATE_PROFILE==='0')return;await post('Profiler.enable');await post('Profiler.setSamplingInterval',{interval:1000});await post('Profiler.start');profiling=true;}
+async function endProfile(marker){if(!profiling)return;profiling=false;const {profile}=await post('Profiler.stop');const nodes=new Map(profile.nodes.map(n=>[n.id,n])),totals={};for(let i=0;i<(profile.samples||[]).length;i++){const key=category(nodes.get(profile.samples[i]));totals[key]=(totals[key]||0)+(profile.timeDeltas[i]||0)/1000;}emit({kind:'CPU_PROFILE',marker,sampledMs:totals});}
+const emit=value=>{if(process.env.PERF_GATE_LOG)appendFileSync(process.env.PERF_GATE_LOG,JSON.stringify(value)+'\n');};
+let externalAttempts=0;
+const nativeFetch=globalThis.fetch;
+globalThis.fetch=async(url,options)=>{const u=new URL(typeof url==='string'?url:url.url??String(url));if(!['127.0.0.1','localhost','[::1]'].includes(u.hostname)||!['GET','HEAD'].includes(options?.method??'GET')){externalAttempts++;emit({kind:'EXTERNAL_REQUEST_BLOCKED',count:externalAttempts});throw Error('PERF_GATE_EXTERNAL_NETWORK_FORBIDDEN');}return nativeFetch(url,options);};
+const load=Module._load;
+Module._load=function(request,parent,isMain){const mod=load.apply(this,arguments);if(!/prisma/i.test(request)||!mod?.PrismaClient||typeof mod.PrismaClient!=='function')return mod;if(wrapped.has(mod))return wrapped.get(mod);
+ const Original=mod.PrismaClient;if(constructors.has(Original)){const proxy={...mod,PrismaClient:constructors.get(Original)};wrapped.set(mod,proxy);return proxy;}
+ class MeasuredClient extends Original{constructor(options){super(options);return this.$extends({query:{$allModels:{$allOperations:async({model,operation,args,query})=>{const active=context.getStore(),start=performance.now();try{return await query(args);}finally{if(active)active.queries.push({model,operation,start:start-active.start,end:performance.now()-active.start});}}}}});}}
+ constructors.set(Original,MeasuredClient);constructors.set(MeasuredClient,MeasuredClient);const proxy={...mod,PrismaClient:MeasuredClient};wrapped.set(mod,proxy);return proxy;
+};
+const create=http.createServer;
+http.createServer=function(...args){const index=args.findIndex(a=>typeof a==='function');if(index>=0){const listener=args[index];args[index]=async function(req,res){if(req.method!=='GET'||!req.url?.startsWith('/pages/'))return listener.call(this,req,res);const marker=req.headers['x-performance-gate']??'unlabelled';if(/^\d+-0$/.test(marker))await beginProfile();const active={start:performance.now(),queries:[]};res.once('finish',()=>{emit({kind:'REQUEST',marker,status:res.statusCode,wallMs:performance.now()-active.start,queries:active.queries,externalAttempts});if(/^\d+-7$/.test(marker))endProfile(marker).catch(()=>emit({kind:'PROFILE_FAILED',marker}));if(marker==='AI-proof')aiCoverage().catch(()=>emit({kind:'COVERAGE_FAILED'}));});return context.run(active,()=>listener.call(this,req,res));};}return create.apply(this,args);};

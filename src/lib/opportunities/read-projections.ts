@@ -1,0 +1,2 @@
+export const snapshotSelect={id:true,source:true,outcome:true,statusCode:true,title:true,description:true,h1:true,wordCount:true,canonical:true,indexable:true,finalUrl:true,error:true,scannedAt:true} as const;
+export const datasetPageSelect={id:true,url:true,pageType:true,normalizedUrl:true,aliasesJson:true,latestScanPage:{select:snapshotSelect},scanPages:{where:{outcome:'OK',statusCode:{gte:200,lt:400}},orderBy:{scannedAt:'desc' as const},take:1,select:snapshotSelect}} as const;

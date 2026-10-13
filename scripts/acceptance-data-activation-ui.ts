@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {chromium} from 'playwright';
+import {db} from '../src/lib/db';
+import {json} from '../src/lib/yandex/settings';
+import {assertFixtureServer} from './stabilization1-fixture-guard.mjs';
+await assertFixtureServer(process.env.DATABASE_URL!);
+const {siteId}=JSON.parse(readFileSync('test-results/data-activation-fixtures.json','utf8'));
+const site=await db.site.findUniqueOrThrow({where:{id:siteId}}),target=await db.integration.findUniqueOrThrow({where:{type:'Target Site'}}),web=await db.integration.findUniqueOrThrow({where:{type:'Yandex Webmaster'}});
+const browser=await chromium.launch({headless:true}),page=await browser.newPage();const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+try{
+ await db.integration.update({where:{id:target.id},data:{configJson:json({baseUrl:site.baseUrl})}});await db.integration.update({where:{id:web.id},data:{configJson:json({siteId,hostId:'activation-fixture'})}});
+ await db.scan.updateMany({where:{siteId,status:'PENDING'},data:{status:'STOPPED',finishedAt:new Date()}});
+ const before=await db.scan.count({where:{siteId}});
+ await page.goto('http://127.0.0.1:3000/scanner?preset=SEO_RESCAN');
+ assert.equal(await page.locator('[data-scanner-launch]').count(),1);
+ assert.equal(await page.locator('[name=searchScope]').inputValue(),'TOP100');
+ assert.ok(await page.getByRole('button',{name:'Запустить сканирование',exact:true}).isDisabled());
+ await page.getByRole('button',{name:'Предпросмотр источника',exact:true}).click();
+ await page.locator('[data-search-preview] tbody tr').first().waitFor({timeout:30000});
+ assert.equal(await page.locator('[data-search-preview] tbody tr').count(),100);
+ assert.equal(await db.scan.count({where:{siteId}}),before);
+ await page.locator('[name=searchBatch]').selectOption('2');
+ await page.getByRole('button',{name:'Запустить сканирование',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('[data-scanner-launch] [role=status]')?.textContent?.includes('создано'),{},{timeout:30000});
+ const scan=await db.scan.findFirstOrThrow({where:{siteId,status:'PENDING'},orderBy:{startedAt:'desc'}});assert.equal((scan.configJson as any).maxPages,50);assert.equal((scan.configJson as any).searchTargeted.batch,2);
+ await db.scan.update({where:{id:scan.id},data:{status:'STOPPED',finishedAt:new Date()}});
+ await page.goto('http://127.0.0.1:3000/unmatched?source=WEBMASTER');assert.ok(await page.getByRole('heading',{name:'Search traffic to documents'}).count());assert.ok(await page.locator('body').textContent().then(t=>t?.includes('HISTORICAL_DEAD')));assert.deepEqual(errors,[]);
+ writeFileSync('test-results/data-activation-ui.json',JSON.stringify({status:'PASS',singleLaunchSurface:true,defaultTop100:true,previewReadOnly:true,batch2ManualLaunch:true,documentsSeparate:true,historicalDeadVisible:true,pageErrors:errors},null,2));console.log('PASS data activation UI fixtures');
+}finally{await browser.close();await db.integration.update({where:{id:target.id},data:{configJson:json(target.configJson)}});await db.integration.update({where:{id:web.id},data:{configJson:json(web.configJson)}});await db.$disconnect();}

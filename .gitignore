@@ -1,0 +1,13 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+test-results/
+.runtime/
+outputs/
+
+# Local AI diagnostics are stored outside the repository; never stage a copied directory.
+.growth-radar-local-ai-diagnostics/
+ai-diagnostics-local/

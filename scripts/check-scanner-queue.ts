@@ -1,0 +1,3 @@
+import {db} from '../src/lib/db';
+console.log(JSON.stringify(await db.scan.findMany({where:{status:{in:['PENDING','RUNNING','STOPPING','PAUSING','IMPORTING']}},select:{id:true,status:true,mode:true,startedAt:true,heartbeatAt:true,finishedAt:true},orderBy:{startedAt:'asc'}}),null,2));
+console.log(JSON.stringify(await db.$queryRaw`SELECT id,status,"finishedAt", jsonb_array_length(COALESCE("configJson"->'searchTargeted'->'selected','[]'::jsonb)) AS selected FROM "Scan" WHERE "finishedAt" IS NOT NULL AND ("configJson"->'searchTargeted'->>'state'='PENDING' OR "configJson"->'targeted'->>'state'='PENDING')`,null,2));await db.$disconnect();

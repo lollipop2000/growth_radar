@@ -1,0 +1,26 @@
+import assert from "node:assert/strict";
+import {chromium} from "playwright";
+import {readFileSync,writeFileSync} from "node:fs";
+import {db} from "../src/lib/db";
+import {json} from "../src/lib/yandex/settings";
+const fixture=JSON.parse(readFileSync("test-results/sprint3-acceptance.json","utf8")),site=await db.site.findUniqueOrThrow({where:{id:fixture.siteId}}),target=await db.integration.findUniqueOrThrow({where:{type:"Target Site"}});
+assert.ok(site.baseUrl.startsWith("http://127.0.0.1:"));assert.equal(await db.scan.count({where:{status:{in:["PENDING","RUNNING","PAUSING","STOPPING"]}}}),0);
+const browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage();
+try {
+  await db.integration.update({where:{id:target.id},data:{configJson:json({...target.configJson as object,baseUrl:site.baseUrl})}});
+  await page.goto("http://127.0.0.1:3000/imports",{waitUntil:"networkidle"});await page.locator('input[name="file"]').setInputFiles("test-results/sprint3-import-fixture.xlsx");await page.getByRole("button",{name:"Загрузить для предпросмотра",exact:true}).click();await page.waitForURL(/draft=/);
+  const draftId=new URL(page.url()).searchParams.get("draft")!;assert.equal(await db.businessRecord.count({where:{importId:draftId}}),0);
+  await page.locator('select[name="sheet"]').selectOption("Данные");await page.getByRole("button",{name:"Показать лист и применить профиль",exact:true}).click();await page.waitForURL(/sheet=/);await page.waitForLoadState("networkidle");
+  assert.equal(await page.locator("table").first().locator("tbody tr").count(),20);assert.equal(await page.locator('select[name="map_rawUrl"]').inputValue(),"0");
+  await page.locator('input[name="profileName"]').fill("Профиль проверки интерфейса");await page.getByRole("button",{name:"4. Проверить строки",exact:true}).click();await page.getByRole("button",{name:"5. Импортировать проверенные строки",exact:true}).waitFor();
+  const validated=await db.import.findUniqueOrThrow({where:{id:draftId}});assert.equal(validated.status,"VALIDATED");assert.equal(validated.rowsErrors,2);assert.equal(await db.businessRecord.count({where:{importId:draftId}}),0);
+  await page.getByRole("button",{name:"5. Импортировать проверенные строки",exact:true}).click();await page.getByRole("heading",{name:"Импорт завершён",exact:true}).waitFor();assert.equal(await db.businessRecord.count({where:{importId:draftId}}),58);
+  await page.screenshot({path:"test-results/sprint3-import-results.png",fullPage:false});
+  await page.goto("http://127.0.0.1:3000/imports",{waitUntil:"networkidle"});await page.locator('input[name="file"]').setInputFiles("test-results/sprint3-import-fixture.xlsx");await page.getByRole("button",{name:"Загрузить для предпросмотра",exact:true}).click();await page.waitForURL(/draft=/);
+  const reusable=await db.importProfile.findFirstOrThrow({where:{siteId:site.id,name:"Профиль проверки интерфейса"}});await page.locator('select[name="profile"]').selectOption(reusable.id);await page.getByRole("button",{name:"Применить профиль",exact:true}).click();await page.waitForURL(/profile=/);await page.waitForLoadState("networkidle");assert.equal(await page.locator('select[name="sheet"]').inputValue(),"Данные");assert.equal(await page.locator('select[name="map_price"]').inputValue(),"2");
+  await page.screenshot({path:"test-results/sprint3-import-preview.png",fullPage:false});
+  await page.goto(`http://127.0.0.1:3000/opportunities/${fixture.opportunityId}`,{waitUntil:"networkidle"});await page.getByRole("button",{name:"Скрыть возможность",exact:true}).click();await page.getByRole("button",{name:"Вернуть",exact:true}).waitFor();assert.equal((await db.opportunity.findUniqueOrThrow({where:{id:fixture.opportunityId}})).status,"DISMISSED");await page.getByRole("button",{name:"Вернуть",exact:true}).click();await page.getByRole("button",{name:"Скрыть возможность",exact:true}).waitFor();assert.equal((await db.opportunity.findUniqueOrThrow({where:{id:fixture.opportunityId}})).status,"ACTIVE");
+  await page.goto("http://127.0.0.1:3000/opportunities?rule=RULE_03&score=0",{waitUntil:"networkidle"});assert.equal(await page.locator("table").first().locator("tbody tr").count(),1);await page.goto("http://127.0.0.1:3000/opportunities?rule=RULE_03&score=100",{waitUntil:"networkidle"});assert.equal(await page.locator("table").first().locator("tbody tr").count(),0);
+  await page.goto(`http://127.0.0.1:3000/pages/${fixture.pageId}`,{waitUntil:"networkidle"});await page.getByRole("heading",{name:"Возможности роста",exact:true}).waitFor();assert.ok((await page.locator("body").innerText()).includes("fixture-sku"));
+  writeFileSync("test-results/sprint3-ui-acceptance.json",JSON.stringify({status:"PASS",siteId:site.id,draftId,previewRows:20,imported:58,rowErrors:2,profileReuse:true,dismissRestore:true,scoreAndRuleFilters:true,page360BusinessAndOpportunities:true,productionImport:false},null,2));console.log("PASS: local UI wizard, preview, sheet, mapping, validation, import, profile reuse, opportunity filters/dismiss/restore, Page 360.");
+}finally{await db.integration.update({where:{id:target.id},data:{configJson:json(target.configJson)}});await browser.close();await db.$disconnect();}

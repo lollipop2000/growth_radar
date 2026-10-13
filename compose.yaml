@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: radar
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: growth_radar
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - radar_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U radar -d growth_radar"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  app:
+    build: .
+    profiles: [app]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://radar:${POSTGRES_PASSWORD}@db:5432/growth_radar?schema=public
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+  worker:
+    build: .
+    profiles: [app]
+    command: ["node", "--conditions=react-server", "--import=tsx", "scripts/worker.ts"]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://radar:${POSTGRES_PASSWORD}@db:5432/growth_radar?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+  yandex-worker:
+    build: .
+    profiles: [app]
+    command: ["node", "--conditions=react-server", "--import=tsx", "scripts/yandex-worker.ts"]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://radar:${POSTGRES_PASSWORD}@db:5432/growth_radar?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  radar_pgdata:

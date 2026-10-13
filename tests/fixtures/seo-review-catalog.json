@@ -1,0 +1,1463 @@
+{
+  "version": "PAGE_SEO_PROFILE_V1",
+  "page": {
+    "pageId": "cmuvgasnz002t20tcltbmyjw4",
+    "currentUrl": "https://shop.gazpromneft-sm.ru/catalog/",
+    "canonicalUrl": null,
+    "pageType": "category",
+    "snapshotId": "cmuyhvkix00vx20qcislhclj7",
+    "snapshotSource": "BROWSER",
+    "snapshotAt": "2026-10-07T19:22:36.585Z",
+    "lastSuccessfulHtmlAt": "2026-10-07T19:22:36.585Z",
+    "aliases": [
+      "https://shop.gazpromneft-sm.ru/catalog"
+    ]
+  },
+  "search": {
+    "period": {
+      "from": "2026-06-01",
+      "to": "2026-08-31"
+    },
+    "summary": {
+      "id": "E015",
+      "kind": "search.summary",
+      "value": {
+        "impressions": 13058,
+        "clicks": 1947,
+        "ctr": 14.910399754939501,
+        "avgPosition": 6.857137387042431,
+        "days": 0,
+        "grain": "MONTH",
+        "monthsCovered": 3,
+        "coverage": 1
+      },
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_WEBMASTER",
+      "observedAt": null,
+      "truncated": false,
+      "supportsAbsenceClaim": false,
+      "period": {
+        "from": "2026-06-01",
+        "to": "2026-08-31"
+      }
+    },
+    "coverage": {
+      "id": "E016",
+      "kind": "search.coverage",
+      "value": {
+        "grain": "MONTH",
+        "observed": 3,
+        "expected": 3,
+        "monthsCovered": 3,
+        "ratio": 1
+      },
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_WEBMASTER",
+      "observedAt": null,
+      "truncated": false,
+      "supportsAbsenceClaim": false,
+      "period": {
+        "from": "2026-06-01",
+        "to": "2026-08-31"
+      }
+    },
+    "queries": [
+      {
+        "id": "E017",
+        "kind": "search.query",
+        "value": {
+          "query": "газпром маркет",
+          "impressions": 1101,
+          "clicks": 5,
+          "ctr": 0.45413260672116257,
+          "avgPosition": 9.103814713896456,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "OTHER"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E018",
+        "kind": "search.query",
+        "value": {
+          "query": "gazpromneft",
+          "impressions": 766,
+          "clicks": 14,
+          "ctr": 1.8276762402088773,
+          "avgPosition": 8.065404699738904,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E019",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть",
+          "impressions": 598,
+          "clicks": 9,
+          "ctr": 1.5050167224080269,
+          "avgPosition": 10.253846153846155,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E020",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть официальный сайт",
+          "impressions": 533,
+          "clicks": 11,
+          "ctr": 2.0637898686679175,
+          "avgPosition": 9.415572232645403,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E021",
+        "kind": "search.query",
+        "value": {
+          "query": "газпром маркет официальный сайт",
+          "impressions": 413,
+          "clicks": 6,
+          "ctr": 1.4527845036319613,
+          "avgPosition": 7.85956416464891,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "OTHER"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E022",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть подбор масла",
+          "impressions": 372,
+          "clicks": 1,
+          "ctr": 0.26881720430107525,
+          "avgPosition": 8.901612903225805,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E023",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть магазин",
+          "impressions": 264,
+          "clicks": 129,
+          "ctr": 48.86363636363637,
+          "avgPosition": 1.2018939393939394,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E024",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть цены",
+          "impressions": 258,
+          "clicks": 1,
+          "ctr": 0.3875968992248062,
+          "avgPosition": 7.624418604651163,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E025",
+        "kind": "search.query",
+        "value": {
+          "query": "газпром магазин",
+          "impressions": 237,
+          "clicks": 115,
+          "ctr": 48.52320675105485,
+          "avgPosition": 1.1970464135021097,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "OTHER"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E026",
+        "kind": "search.query",
+        "value": {
+          "query": "газпроммаркет официальный сайт",
+          "impressions": 213,
+          "clicks": 1,
+          "ctr": 0.4694835680751174,
+          "avgPosition": 8.61924882629108,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "OTHER"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E027",
+        "kind": "search.query",
+        "value": {
+          "query": "сайт газпромнефть официальный сайт",
+          "impressions": 192,
+          "clicks": 0,
+          "ctr": 0,
+          "avgPosition": 9.777083333333334,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E028",
+        "kind": "search.query",
+        "value": {
+          "query": "газпром маркет 3.0 сайт официальный",
+          "impressions": 181,
+          "clicks": 0,
+          "ctr": 0,
+          "avgPosition": 10.641988950276241,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "OTHER"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E029",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть масло",
+          "impressions": 174,
+          "clicks": 27,
+          "ctr": 15.517241379310345,
+          "avgPosition": 9.072413793103447,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "PRODUCT",
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E030",
+        "kind": "search.query",
+        "value": {
+          "query": "масло газпром",
+          "impressions": 163,
+          "clicks": 3,
+          "ctr": 1.8404907975460123,
+          "avgPosition": 8.414723926380368,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "PRODUCT"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E031",
+        "kind": "search.query",
+        "value": {
+          "query": "масло газпромнефть",
+          "impressions": 150,
+          "clicks": 4,
+          "ctr": 2.6666666666666665,
+          "avgPosition": 9.475333333333335,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "PRODUCT",
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E032",
+        "kind": "search.query",
+        "value": {
+          "query": "что такое топ товары на азс газпромнефть",
+          "impressions": 9,
+          "clicks": 0,
+          "ctr": 0,
+          "avgPosition": 7.211111111111112,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND",
+            "INFORMATIONAL"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E033",
+        "kind": "search.query",
+        "value": {
+          "query": "канистра на азс газпром",
+          "impressions": 5,
+          "clicks": 3,
+          "ctr": 60,
+          "avgPosition": 2.2,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "PACKAGING"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E034",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть цена",
+          "impressions": 72,
+          "clicks": 0,
+          "ctr": 0,
+          "avgPosition": 8.375,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "TRANSACTIONAL",
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E035",
+        "kind": "search.query",
+        "value": {
+          "query": "масла газпромнефть официальный сайт цены",
+          "impressions": 135,
+          "clicks": 16,
+          "ctr": 11.851851851851851,
+          "avgPosition": 2.7696296296296294,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E036",
+        "kind": "search.query",
+        "value": {
+          "query": "газпром подбор масла",
+          "impressions": 132,
+          "clicks": 3,
+          "ctr": 2.272727272727273,
+          "avgPosition": 7.5598484848484855,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "OTHER"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E037",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть сайт официальный сайт",
+          "impressions": 132,
+          "clicks": 0,
+          "ctr": 0,
+          "avgPosition": 9.437878787878788,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E038",
+        "kind": "search.query",
+        "value": {
+          "query": "заправка газпромнефть официальный сайт цены",
+          "impressions": 131,
+          "clicks": 2,
+          "ctr": 1.5267175572519085,
+          "avgPosition": 8.356488549618321,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E039",
+        "kind": "search.query",
+        "value": {
+          "query": "газпром масло",
+          "impressions": 120,
+          "clicks": 6,
+          "ctr": 5,
+          "avgPosition": 7.6575,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "PRODUCT"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E040",
+        "kind": "search.query",
+        "value": {
+          "query": "газпромнефть магазин каталог товаров на заправках",
+          "impressions": 116,
+          "clicks": 69,
+          "ctr": 59.48275862068966,
+          "avgPosition": 1.2060344827586207,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      {
+        "id": "E041",
+        "kind": "search.query",
+        "value": {
+          "query": "подбор масла газпромнефть",
+          "impressions": 106,
+          "clicks": 0,
+          "ctr": 0,
+          "avgPosition": 9.696226415094339,
+          "pageId": "cmuvgasnz002t20tcltbmyjw4",
+          "intents": [
+            "BRAND"
+          ]
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "FULL",
+        "source": "SAVED_WEBMASTER",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false,
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      }
+    ],
+    "totalQueries": 502,
+    "truncated": true,
+    "trend": {
+      "id": "E042",
+      "kind": "search.trend",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_WEBMASTER",
+      "observedAt": null,
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    }
+  },
+  "content": {
+    "title": {
+      "id": "E001",
+      "kind": "content.title",
+      "value": "Каталог продукции",
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "description": {
+      "id": "E002",
+      "kind": "content.description",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "h1": {
+      "id": "E003",
+      "kind": "content.h1",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "h2": {
+      "id": "E004",
+      "kind": "content.h2",
+      "value": [
+        "Нужна консультация менеджера?"
+      ],
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "topText": {
+      "id": "E005",
+      "kind": "content.topText",
+      "value": "Каталог продукции В наличии Акция Фильтры Сбросить Сортировка: Цена по убыванию Цена по возрастанию Цена по убыванию Масса по возрастанию Масса по убыванию Сортировка: Цена Масса Фильтры В наличии Акция БрендБрендG-FamilyГазпромнефтьРосполихим Варианты фасовкиВарианты фасовкиБаллон 0,65 лБаллон штБанка 0,8 кгБочка 170 кгБочка 180 кгБочка 200 лБочка 205 лБочка 208 лБочка 215 лБочка 220 кгБочка 50 кгБочка 50 лБочка пластик 220 кгВедро 18 кгВедро 4 кгВедро 8 кгДой-пак 0,1 кгДой-пак 0,15 кгДой-пак 0,3 кгКанистра 0,455 кгКанистра 0,8 лКанистра 0,91 кгКанистра 0,935 кгКанистра 1 кгКанистра 1 лКанистра 10 кгКанистра 10 лКанистра 20 кгКанистра 20 лКанистра 3,5 лКанистра 30 лКанистра 4 лКанистра 4,775 кгКанистра 5 кгКанистра 5 лКанистра 50 лКанистра 800 млКартридж 0,4 кгКуб 1 000 лКуб 1 000 кгКуб 1 000 лКуб 950 лПромо-комплектФляга 45 кг Цена 0 1 923 378,02 Сбросить Показать 000253731681 Нет в наличии Gazpromneft Refrigerator PAO 68 FG Куб 1 000 л Масса нетто: 832 кг от 1 923 378.02 руб. 000253320004 Нет в наличии Gazpromneft Hydraulic HFDU-46 Куб 1 000 л Масса нетто: 917 кг от 1 588 598.48 руб. 000253420811 Нет в наличии Gazpromneft Reductor PAO Synth-150 Куб 1 000 л Масса нетто: 852 кг от 1 464 377.77 руб. 002389907855 Нет в наличии G-Special Hydraulic Nord-32 Куб 1 000 л Масса нетто: 854 кг от 1 356 123.87 руб. 000253420463 Нет в наличии Gazpromneft Reductor F Synth-150 Куб 1 000 л Масса нетто: 848 кг от 1 202 793.52 руб. 000258310029 Нет в наличии Gazpromneft Cutfluid Est Куб 1 000 л Масса нетто: 964 кг от 1 192 024.28 руб. 000258310052 Нет в наличии Gazpromneft Cutfluid Al Куб 1 000 л Масса нетто: 947 кг от 1 189 018.53 руб. 000258310026 Нет в наличии Gazpromneft Cutfluid Synthetic Куб 1 000 л Масса нетто: 1081 кг от 1 036 688.16 руб. 002332250004 В наличии Gazpromneft Hydraulic Nord-32 Куб 1 000 л Масса нетто: 849 кг от 950 976.95 руб. 000258310032 Нет в наличии Gazpromneft Cutfluid Universal Куб 1 000 л Масса нетто: 981 кг от 949 151.92 руб. 000253133950 В наличии G-Profi GTS 10W-40 Куб 950 л Масса нетто: 866 кг от 880 491.47 руб. 000253760127 Нет в наличии Gazpromneft Compressor PAG WG-150 Бочка 205 л Масса нетто: 215 кг от 861 936.05 руб. 1 2 3 4 ... 111 Показывать по 12 Показывать по 24 Показывать по 48 Показать еще 12 товаров Показать еще Получить консультацию",
+      "state": "KNOWN_PRESENT",
+      "coverage": "PARTIAL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "excerpts": {
+      "id": "E006",
+      "kind": "content.excerpts",
+      "value": [
+        {
+          "start": 0,
+          "text": "Каталог продукции В наличии Акция Фильтры Сбросить Сортировка: Цена по убыванию Цена по возрастанию Цена по убыванию Масса по возрастанию Масса по убыванию Сортировка: Цена Масса Фильтры В наличии Акция БрендБрендG-FamilyГазпромнефтьРосполихим Варианты фасовкиВарианты фасовкиБаллон 0,65 лБаллон штБанка 0,8 кгБочка 170 кгБочка 180 кгБочка 200 лБочка 205 лБочка 208 лБочка 215 лБочка 220 кгБочка 50 кгБочка 50 лБочка пластик 220 кгВедро 18 кгВедро 4 кгВедро 8 кгДой-пак 0,1 кгДой-пак 0,15 кгДой-пак 0,3 кгКанистра 0,455 кгКанистра 0,8 лКанистра 0,91 кгКанистра 0,935 кгКанистра 1 кгКанистра 1 лКанистра 10 кгКанистра 10 лКанистра 20 кгКанистра 20 лКанистра 3,5 лКанистра 30 лКанистра 4 лКанистра 4,775 кгКанистра 5 кгКанистра 5 лКанистра 50 лКанистра 800 млКартридж 0,4 кгКуб 1 000 лКуб 1 000 кгКуб 1 000 лКуб 950 лПромо-комплектФляга 45 кг Цена 0 1 923 378,02 Сбросить Показать 000253731681 Нет в наличии Gazpromneft Refrigerator PAO 68 FG Куб 1 000 л Масса нетто: 832 кг от 1 923 378.02 руб. 000253320004 Нет в наличии Gazpromneft Hydraulic HFDU-46 Куб 1 000 л Масса нетто: 917 кг от 1 588 598.48 руб. 000253420811 Нет в наличии Gazpromneft Reductor PAO Synth-150 Куб 1 000 л Масса нетто: 852 кг от 1 464 377.77 руб. 002389907855 Нет в наличии G-Special Hydraulic Nord-32 Куб 1 000 л Масса нетто: 854 кг от 1 356 123.87 руб. 000253420463 Нет в наличии Gazpromneft Reductor F Synth-150 Куб 1 000 л Масса нетто: 848 кг от 1 202 793.52 руб. 000258310029 Нет в наличии Gazpromneft Cutfluid Est Куб 1 000 л Масса нетто: 964 кг от 1 192 024.28 руб. 000258310052 Нет в наличии Gazpromneft Cutfluid Al Куб 1 000 л Масса нетто: 947 кг от 1 189 018.53 руб. 000258310026 Нет в наличии Gazpromneft Cutfluid Synthetic Куб 1 000 л Масса нетто: 1081 кг от 1 036 688.16 руб. 002332250004 В наличии Gazpromneft Hydraulic Nord-32 Куб 1 000 л Масса нетто: 849 кг от 950 976.95 руб. 000258310032 Нет в наличии Gazpromneft Cutfluid Universal Куб 1 000 л Масса нетто: 981 кг от 949 151.92 руб. 000253133950 В наличии G-Profi GTS 10W-40 Куб 950 л Масса нетто: 866 кг от 880 491.47 руб. 000253760127 Нет в наличии Gazpromneft Compressor PAG WG-150 Бочка 205 л Масса нетто: 215 кг от 861 936.05 руб. 1 2 3 4 ... 111 Показывать по 12 Показывать по 24 Показывать по 48 Показать еще 12 товаров Показать еще Получить консультацию"
+        }
+      ],
+      "state": "KNOWN_PRESENT",
+      "coverage": "PARTIAL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "application": {
+      "id": "E007",
+      "kind": "content.application",
+      "value": null,
+      "state": "NOT_OBSERVED",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "specifications": {
+      "id": "E008",
+      "kind": "content.specifications",
+      "value": null,
+      "state": "NOT_OBSERVED",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "packaging": {
+      "id": "E009",
+      "kind": "content.packaging",
+      "value": "нты фасовкиБаллон 0,65 лБаллон штБанка 0,8 кгБочка 170 кгБочка 180 кгБочка 200 лБочка 205 лБочка 208 лБочка 215 лБочка 220 кгБочка 50 кгБочка 50 ",
+      "state": "KNOWN_PRESENT",
+      "coverage": "PARTIAL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "cta": {
+      "id": "E010",
+      "kind": "content.cta",
+      "value": null,
+      "state": "NOT_OBSERVED",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "price": {
+      "id": "E011",
+      "kind": "content.price",
+      "value": "PAO 68 FG Куб 1 000 л Масса нетто: 832 кг от 1 923 378.02 руб. 000253320004 Нет в наличии Gazpromneft Hydraulic HFDU-46 Куб 1 000 л Масса нетто: ",
+      "state": "KNOWN_PRESENT",
+      "coverage": "PARTIAL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "availability": {
+      "id": "E012",
+      "kind": "content.availability",
+      "value": "Каталог продукции В наличии Акция Фильтры Сбросить Сортировка: Цена по убыванию Цена по возрастанию Цена по убыванию М",
+      "state": "KNOWN_PRESENT",
+      "coverage": "PARTIAL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "documentation": {
+      "id": "E013",
+      "kind": "content.documentation",
+      "value": null,
+      "state": "NOT_OBSERVED",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "characteristics": {
+      "id": "E014",
+      "kind": "content.characteristics",
+      "value": null,
+      "state": "NOT_OBSERVED",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "subcategoryStructure": {
+      "id": "E055",
+      "kind": "content.subcategoryStructure",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "filterStructure": {
+      "id": "E056",
+      "kind": "content.filterStructure",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "productListStructure": {
+      "id": "E057",
+      "kind": "content.productListStructure",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "categoryInformationBlock": {
+      "id": "E058",
+      "kind": "content.categoryInformationBlock",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    }
+  },
+  "technical": {
+    "httpStatus": {
+      "id": "E043",
+      "kind": "technical.httpStatus",
+      "value": 200,
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "canonical": {
+      "id": "E044",
+      "kind": "technical.canonical",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "robots": {
+      "id": "E045",
+      "kind": "technical.robots",
+      "value": null,
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "indexable": {
+      "id": "E046",
+      "kind": "technical.indexable",
+      "value": true,
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "finalUrl": {
+      "id": "E047",
+      "kind": "technical.finalUrl",
+      "value": "https://shop.gazpromneft-sm.ru/catalog/",
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "redirects": {
+      "id": "E048",
+      "kind": "technical.redirects",
+      "value": [],
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "schema": {
+      "id": "E049",
+      "kind": "technical.schema",
+      "value": [],
+      "state": "NOT_OBSERVED",
+      "coverage": "PARTIAL",
+      "source": "SAVED_SNAPSHOT:BROWSER",
+      "observedAt": "2026-10-07T19:22:36.585Z",
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    }
+  },
+  "internalLinks": {
+    "summary": {
+      "id": "E050",
+      "kind": "links.summary",
+      "value": {
+        "observedPages": 665,
+        "totalPages": 1495,
+        "inbound": 0,
+        "outbound": 65
+      },
+      "state": "KNOWN_PRESENT",
+      "coverage": "PARTIAL",
+      "source": "SAVED_LINK_GRAPH",
+      "observedAt": null,
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    },
+    "inbound": [],
+    "outbound": [
+      {
+        "id": "E059",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/",
+          "pageType": "homepage"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:08:07.817Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E060",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/about/",
+          "pageType": "informational"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:08:30.280Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E061",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/about/contacts/",
+          "pageType": "informational"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:09:08.177Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E062",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/about/delivery/",
+          "pageType": "informational"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:08:50.390Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E063",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/about/manipulation/",
+          "pageType": "informational"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:08:58.917Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E064",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?display=list&new=y",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-05T16:16:25.819Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E065",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:08:19.689Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E066",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y&TECHNICS_TYPE%5B%5D=%D0%9A%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5+%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D0%B8",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:09:58.768Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E067",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y&TECHNICS_TYPE%5B%5D=%D0%9B%D0%B5%D0%B3%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5+%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D0%B8",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:09:18.392Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E068",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y&TECHNICS_TYPE%5B%5D=IND+-+%D0%B8%D0%BD%D0%B4%D1%83%D1%81%D1%82%D1%80%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5+%D0%BC%D0%B0%D1%81%D0%BB%D0%B0",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:10:43.914Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E069",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?new=y",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-05T16:16:08.891Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E070",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/g-profi-gts-10w-40-kub-950-l/",
+          "pageType": "product"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:UNKNOWN",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E071",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/gazpromneft-compressor-pag-wg-150-bochka-205-l/",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T20:55:07.502Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E072",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/gazpromneft-cutfluid-synthetic-kub-1-000-l/",
+          "pageType": "product"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:UNKNOWN",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E073",
+        "kind": "links.outbound",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/gazpromneft-cutfluid-universal-kub-1-000-l/",
+          "pageType": "product"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:UNKNOWN",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      }
+    ],
+    "related": [
+      {
+        "id": "E074",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog?BRAND%5B%5D=G-Family&CATALOG_FILTER_P1_MAX=1827209.12&CATALOG_FILTER_P1_MIN=0.00&COMPOSITION%5B%5D=%D0%A1%D0%B8%D0%BD%D1%82%D0%B5%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B5&FILTER_ITEM_IN_STOCK=Y&FUEL%5B%5D=%D0%94%D0%B8%D0%B7%D0%B5%D0%BB%D1%8C&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+205+%D0%BB&PAGEN_1=1&SAE%5B%5D=10W-40&SIZE=12&csrf[%D1%81%D0%B5%D0%BA%D1%80%D0%B5%D1%82 скрыт]",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:UNKNOWN",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E075",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog?CATALOG_FILTER_P1_MAX=1041183.62&CATALOG_FILTER_P1_MIN=0.00&FILTER_ITEM_IN_STOCK=Y&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+205+%D0%BB&PAGEN_1=1&SAE%5B%5D=10W-40&SIZE=12&csrf[%D1%81%D0%B5%D0%BA%D1%80%D0%B5%D1%82 скрыт]",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:UNKNOWN",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E076",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog?CATALOG_FILTER_P1_MAX=1827209.12&CATALOG_FILTER_P1_MIN=0.00&FILTER_ITEM_IN_STOCK=Y&FILTER_ITEM_PRICE=catalog_PRICE_1&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+170+%D0%BA%D0%B3&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+180+%D0%BA%D0%B3&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+200+%D0%BB&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+205+%D0%BB&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+208+%D0%BB&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+215+%D0%BB&PACKING%5B%5D=%D0%91%D0%BE%D1%87%D0%BA%D0%B0+220+%D0%BA%D0%B3&PAGEN_1=2&SIZE=12&csrf[%D1%81%D0%B5%D0%BA%D1%80%D0%B5%D1%82 скрыт]",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:UNKNOWN",
+        "observedAt": null,
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E077",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?CATALOG_FILTER_P1_MAX=1827209.12&CATALOG_FILTER_P1_MIN=69.54&FILTER_ITEM_FAVORITES_PRODUCTS=Y&set_filter=Y",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-06T09:43:00.282Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E078",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?display=list&new=y",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-05T16:16:25.819Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E079",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:08:19.689Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E080",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y&PRODUCT_TYPE%5B%5D=%D0%9C%D0%BE%D1%82%D0%BE%D1%80%D0%BD%D1%8B%D0%B5&TECHNICS_TYPE%5B%5D=%D0%9A%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5+%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D0%B8",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:10:09.167Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E081",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y&PRODUCT_TYPE%5B%5D=%D0%9C%D0%BE%D1%82%D0%BE%D1%80%D0%BD%D1%8B%D0%B5&TECHNICS_TYPE%5B%5D=%D0%9B%D0%B5%D0%B3%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5+%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D0%B8",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:09:28.949Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E082",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y&PRODUCT_TYPE%5B%5D=%D0%A2%D1%80%D0%B0%D0%BD%D1%81%D0%BC%D0%B8%D1%81%D1%81%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5&TECHNICS_TYPE%5B%5D=%D0%9A%D0%BE%D0%BC%D0%BC%D0%B5%D1%80%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5+%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D0%B8",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:10:19.271Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      },
+      {
+        "id": "E083",
+        "kind": "links.related",
+        "value": {
+          "url": "https://shop.gazpromneft-sm.ru/catalog/?FILTER_ITEM_IN_STOCK=Y&PRODUCT_TYPE%5B%5D=%D0%A2%D1%80%D0%B0%D0%BD%D1%81%D0%BC%D0%B8%D1%81%D1%81%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5&TECHNICS_TYPE%5B%5D=%D0%9B%D0%B5%D0%B3%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5+%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D0%B8",
+          "pageType": "category"
+        },
+        "state": "KNOWN_PRESENT",
+        "coverage": "PARTIAL",
+        "source": "SAVED_LINK_GRAPH:BROWSER",
+        "observedAt": "2026-10-07T14:09:37.992Z",
+        "truncated": false,
+        "supportsAbsenceClaim": false
+      }
+    ],
+    "knownPages": []
+  },
+  "commerce": {
+    "summary": {
+      "id": "E051",
+      "kind": "commerce.summary",
+      "value": {
+        "visits": 1661,
+        "orders": null,
+        "revenue": null,
+        "salesState": "UNKNOWN"
+      },
+      "state": "KNOWN_PRESENT",
+      "coverage": "PARTIAL",
+      "source": "SAVED_COMMERCE",
+      "observedAt": null,
+      "truncated": false,
+      "supportsAbsenceClaim": false,
+      "period": {
+        "from": "2026-09-11",
+        "to": "2026-10-08"
+      }
+    },
+    "coverage": {
+      "id": "E052",
+      "kind": "commerce.coverage",
+      "value": {
+        "knownDays": 0,
+        "expectedDays": 28,
+        "provenance": []
+      },
+      "state": "UNKNOWN",
+      "coverage": "UNKNOWN",
+      "source": "SAVED_COMMERCE",
+      "observedAt": null,
+      "truncated": false,
+      "supportsAbsenceClaim": false,
+      "period": {
+        "from": "2026-09-11",
+        "to": "2026-10-08"
+      }
+    }
+  },
+  "product": {
+    "id": "E053",
+    "kind": "product",
+    "value": null,
+    "state": "UNKNOWN",
+    "coverage": "UNKNOWN",
+    "source": "CONFIRMED_MAPPING",
+    "observedAt": null,
+    "truncated": false,
+    "supportsAbsenceClaim": false
+  },
+  "existingFindings": [
+    {
+      "id": "E054",
+      "kind": "finding.seo",
+      "value": {
+        "rule": "A02",
+        "title": "Добавить метаописание страницы",
+        "area": "DESCRIPTION",
+        "priority": "HIGH",
+        "period": {
+          "from": "2026-06-01",
+          "to": "2026-08-31"
+        }
+      },
+      "state": "KNOWN_PRESENT",
+      "coverage": "FULL",
+      "source": "SAVED_ACTIVE_FINDING",
+      "observedAt": null,
+      "truncated": false,
+      "supportsAbsenceClaim": false
+    }
+  ],
+  "evidenceQuality": {
+    "limitations": [
+      "Сохранённые данные не подтверждают текущее состояние live-сайта. Дата snapshot указана отдельно.",
+      "Фрагменты текста и сигналы PARTIAL: ненаблюдение не означает отсутствие.",
+      "Search trends: UNKNOWN — сопоставимый тренд в этом профиле не рассчитан.",
+      "Граф PARTIAL: только сохранённые точные URL ссылок. Счётчики — наблюдаемый минимум; aliases и неполные снимки не доказывают orphan. Анализ всех посадочных сайта не проведён.",
+      "INVENTORY не входит в SEO Review. AI priority не изменяет deterministic score.",
+      "Продажи UNKNOWN вне подтверждённого покрытия: 0/28 дней периода; это не нулевые продажи.",
+      "Search: до 25 из 502: TOP 15 по impressions, представители существующих intent classes, затем оставшиеся TOP; без новых кластеров.",
+      "Граф PARTIAL: 665/1495 страниц. Нельзя доказать orphan.",
+      "Списки links ограничены: inbound 10, outbound 15, related 10.",
+      "description: UNKNOWN — null в сохранённом snapshot; исходный HTML не хранится, отсутствие тега не доказано.",
+      "h1: UNKNOWN — null в сохранённом snapshot; исходный HTML не хранится, отсутствие тега не доказано.",
+      "Текст main/body смешивает фильтры, списки и рекомендации товаров. Semantic blocks не сохранены: свойства отдельного товара нельзя переносить на всю категорию или соседний товар.",
+      "Search impressions/clicks — наблюдения этой страницы за указанный период; CTR = clicks/impressions × 100; avgPosition взвешена по impressions. demand из импортированного *_demand исключён: семантика источника не подтверждена, это не показы страницы."
+    ],
+    "inputBytes": 39400
+  }
+}

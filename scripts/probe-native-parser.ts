@@ -1,0 +1,1 @@
+import {readFileSync} from 'node:fs';import {readWorkbook} from '../src/lib/business/import';const w=await readWorkbook(readFileSync('C:/Users/4way0/Downloads/shop.gazpromneft-sm.ru_ac664341769d27db78d001b.xlsx'),'native.xlsx');console.log(JSON.stringify(w.sheets.map(s=>({name:s.name,rows:s.rows.length,columns:s.headers.length,sample:s.rows[0]?.slice(0,7)}))));

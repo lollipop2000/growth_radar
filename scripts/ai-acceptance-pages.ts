@@ -1,0 +1,10 @@
+import {writeFileSync} from 'node:fs';
+import {db} from '../src/lib/db';
+import {targetUrl} from '../src/lib/health';
+const baseUrl=await targetUrl(),site=await db.site.findUniqueOrThrow({where:{baseUrl:baseUrl!}});
+const a=await db.seoAction.findFirst({where:{siteId:site.id,isCurrent:true,status:'ACTIVE',category:'DESCRIPTION'},orderBy:{id:'asc'},include:{page:{select:{id:true,url:true}}}});
+const b=await db.opportunity.findFirst({where:{siteId:site.id,domain:'COMMERCE',status:'ACTIVE',periodFrom:new Date('2026-09-09'),periodTo:new Date('2026-10-06')},orderBy:{score:'desc'},include:{page:{select:{id:true,url:true}}}});
+const c=await db.page.findFirst({where:{siteId:site.id,active:true,pageType:'product',seoActions:{none:{status:'ACTIVE',isCurrent:true}},opportunities:{none:{status:'ACTIVE'}},latestScanPage:{outcome:'OK',statusCode:200}},select:{id:true,url:true},orderBy:{id:'asc'}});
+const rows=[{case:'A',page:a?.page??null,finding:a?{id:a.id,rule:a.actionId}:null},{case:'B',page:b?.page??null,finding:b?{id:b.id,rule:b.ruleId,period:'2026-09-09–2026-10-06'}:null},{case:'C',page:c,finding:null}];
+writeFileSync('test-results/sprint4-acceptance-pages.json',JSON.stringify(rows,null,2));console.log(JSON.stringify(rows));
+const scans=await db.scan.count({where:{status:{in:['PENDING','RUNNING']}}});console.log('Active scans: '+scans);await db.$disconnect();

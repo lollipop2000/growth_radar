@@ -1,0 +1,15 @@
+import {db} from '../src/lib/db';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {commerceRuleIds} from '../src/lib/opportunities/commerce-rules';
+import type {PreparedPage} from '../src/lib/opportunities/model';
+const report=JSON.parse(readFileSync('test-results/sprint3-3-production.json','utf8')),before=JSON.parse(readFileSync('test-results/sprint3-3-before.json','utf8'));
+try{
+ const rows=await db.opportunity.findMany({where:{siteId:before.siteId,isCurrent:true,ruleId:{in:commerceRuleIds},periodFrom:new Date(report.period.from+'T00:00:00Z'),periodTo:new Date(report.period.to+'T00:00:00Z')},orderBy:[{score:'desc'},{id:'asc'}],take:10});
+ report.growthRiskTop10=report.top10.filter((r:{domain?:string})=>r.domain==='COMMERCE');
+ report.top10=rows.map(o=>{const p=(o.evidenceJson as unknown as {page:PreparedPage}).page,x=p.commerce!;return {id:o.id,pageId:o.pageId,url:p.url,name:[...new Set(x.groups.map(g=>g.name))].join(', '),rule:o.ruleId,domain:o.domain,primaryType:o.primaryType,score:o.score,revenue:x.sales?.revenue??null,kg:x.sales?.quantityKg??null,visits:p.traffic?.visits??null,stock:x.stock,stockUnit:x.stockUnit,daysOfStock:x.daysOfStock,staleSources:Object.entries(x.freshness).filter(([k,f])=>f.ageDays!=null&&f.ageDays>({stock:2,price:7,sales:3}[k as 'stock'|'price'|'sales'])).map(([source,f])=>({source,date:f.date,ageDays:f.ageDays}))};});
+ writeFileSync('test-results/sprint3-3-production.json',JSON.stringify(report,null,2));
+ const cell=(v:unknown)=>v==null?'Нет данных':typeof v==='number'?new Intl.NumberFormat('ru-RU',{maximumFractionDigits:3}).format(v):String(v),table='\n\n### TOP-10 коммерческих правил (DATA_QUALITY)\n\nВсе фактически найденные десять записей относятся к RULE 21, а не к подтверждённым Growth/Risk. Выручка и кг — наблюдаемые суммы текущего периода; даты stale источника приведены как evidence.\n\n| Page | Rule | Score | Revenue, ₽ | Kg | Visits | Stock | Days of Stock | Устаревшие данные |\n| --- | --- | ---: | ---: | ---: | ---: | --- | --- | --- |\n'+report.top10.map((r:{name:string;url:string;rule:string;score:number;revenue:number|null;kg:number|null;visits:number|null;stock:number|null;stockUnit:string|null;daysOfStock:number|null;staleSources:{date:string;ageDays:number}[]})=>`| [${r.name.replaceAll('|',' ')}](${r.url}) | ${r.rule} | ${r.score} | ${cell(r.revenue)} | ${cell(r.kg)} | ${cell(r.visits)} | ${cell(r.stock)} ${r.stockUnit??''} | ${cell(r.daysOfStock)} | ${r.staleSources.map(s=>`${s.date}, ${s.ageDays} дней`).join('; ')} |`).join('\n')+'\n';
+ const path='SPRINT3_3_RUNBOOK.md';let runbook=readFileSync(path,'utf8');runbook=runbook.replace(/\n\n### TOP-10 коммерческих правил[\s\S]*?(?=\n## Tests\n)/,'');runbook=runbook.replace('\n## Tests\n',table+'\n## Tests\n');writeFileSync(path,runbook);
+ console.log(JSON.stringify(report.top10.map((r:{name:string;score:number;visits:number;stock:number;stockUnit:string;staleSources:unknown})=>({name:r.name,score:r.score,visits:r.visits,stock:r.stock,unit:r.stockUnit,stale:r.staleSources}))));
+}finally{await db.$disconnect();}
+

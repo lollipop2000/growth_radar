@@ -1,0 +1,6 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {db} from '../src/lib/db';
+import {aggregateQueries} from '../src/lib/seo-actions/engine';
+import {loadSeoConfig} from '../src/lib/seo-actions/service';
+const path='test-results/sprint3-5-1-production.json',r=JSON.parse(readFileSync(path,'utf8'));
+try{const c=await loadSeoConfig(r.siteId),rows=await db.webmasterQueryDaily.findMany({where:{siteId:r.siteId,grain:'MONTH',date:{gte:new Date(r.seo.period.from),lte:new Date(r.seo.period.to)}}}),index=new Map<string,typeof rows>();for(const row of rows){if(!row.pageId)continue;const group=index.get(row.pageId)??[];group.push(row);index.set(row.pageId,group);}const pages=await db.page.findMany({where:{id:{in:[...index.keys()]}},include:{scanPages:{where:{outcome:'OK',statusCode:{gte:200,lt:400}},take:1}}});const hasQuery=(id:string)=>aggregateQueries(index.get(id)??[]).some(q=>q.impressions>=c.minQueryImpressions);r.seo.eligibility={threshold:c.minQueryImpressions,matchedSearchPages:pages.length,successfulSnapshot:pages.filter(p=>p.scanPages.length).length,significantQuery:pages.filter(p=>hasQuery(p.id)).length,snapshotAndSignificantQuery:pages.filter(p=>p.scanPages.length&&hasQuery(p.id)).length};writeFileSync(path,JSON.stringify(r,null,2));console.log(JSON.stringify(r.seo.eligibility));}finally{await db.$disconnect();}
